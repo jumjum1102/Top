@@ -434,17 +434,14 @@ body::after{
 </head>
 <body>
 
-<!-- Custom cursor -->
 <div class="cursor" id="cur"></div>
 <div class="cursor-ring" id="cur-r"></div>
 
-<!-- ══════════ HEADER ══════════ -->
 <header id="hdr">
   <div class="logo">SINGAPORE<b>GUIDE</b></div>
   <span class="hdr-tag">シンガポール生活情報</span>
 </header>
 
-<!-- ══════════ FLOATING BUTTON ══════════ -->
 <button id="fab" onclick="toggleFab()" aria-label="メニュー">
   <svg viewBox="0 0 24 24">
     <line x1="4" y1="6" x2="20" y2="6"/>
@@ -463,21 +460,21 @@ body::after{
     <span class="fp-arr">↓</span>
   </div>
 
-  <div class="fp-item" onclick="goPage('healthcare.html')">
+  <div class="fp-item" onclick="goPage('https://jumjum1102.github.io/comparison-jp-sg-nationalhealth/')">
     <div class="fp-dot" style="background:#5B8DB8;"></div>
     <span class="fp-n">01</span>
     <span class="fp-name">公的医療保険制度</span>
     <span class="fp-arr">↗</span>
   </div>
 
-  <div class="fp-item" onclick="goPage('hawker.html')">
+  <div class="fp-item" onclick="goPage('https://jumjum1102.github.io/Hawker-hisrory/')">
     <div class="fp-dot" style="background:#C07840;"></div>
     <span class="fp-n">02</span>
     <span class="fp-name">ホーカー食文化</span>
     <span class="fp-arr">↗</span>
   </div>
 
-  <div class="fp-item" onclick="goPage('transport.html')">
+  <div class="fp-item" onclick="goPage('https://jumjum1102.github.io/transportation-singapore/')">
     <div class="fp-dot" style="background:#3A7D5B;"></div>
     <span class="fp-n">03</span>
     <span class="fp-name">交通・空港</span>
@@ -499,7 +496,6 @@ body::after{
   </div>
 </div>
 
-<!-- ══════════ HERO ══════════ -->
 <div id="hero">
   <div id="hero-bg"></div>
   <div class="hero-ov"></div>
@@ -531,7 +527,6 @@ body::after{
   </div>
 </div>
 
-<!-- ══════════ MARQUEE ══════════ -->
 <div id="mq">
   <div class="mq-track">
     <span class="mq-item">Healthcare<span class="mq-dot"></span></span>
@@ -551,7 +546,6 @@ body::after{
   </div>
 </div>
 
-<!-- ══════════ BRANCHES ══════════ -->
 <section id="branches">
   <div class="br-head fade">
     <div>
@@ -561,7 +555,6 @@ body::after{
     <p class="br-note">各カードをクリックして詳細ガイドへ。<br>順次カテゴリを追加予定。</p>
   </div>
 
-  <!-- Active 3 cards -->
   <div class="cards3">
 
     <div class="card fade" onclick="goPage('https://jumjum1102.github.io/comparison-jp-sg-nationalhealth/')">
@@ -602,7 +595,6 @@ body::after{
 
   </div>
 
-  <!-- Coming-soon 4 cards -->
   <div class="cards4">
 
     <div class="card-cs fade d1">
@@ -652,7 +644,6 @@ body::after{
   </div>
 </section>
 
-<!-- ══════════ ABOUT ══════════ -->
 <section id="about">
   <div class="about-in">
     <div class="about-img-w fade-l">
@@ -674,7 +665,6 @@ body::after{
   </div>
 </section>
 
-<!-- ══════════ GALLERY ══════════ -->
 <div id="gallery">
   <div class="gl-item">
     <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=700&q=75" alt="Changi Airport">
@@ -694,7 +684,6 @@ body::after{
   </div>
 </div>
 
-<!-- ══════════ FOOTER ══════════ -->
 <footer id="footer">
   <div class="ft-in">
     <div>
@@ -724,8 +713,13 @@ body::after{
   </div>
 </footer>
 
-<!-- ══════════ JS ══════════ -->
 <script>
+const PAGE_LINKS = {
+  healthcare: "https://jumjum1102.github.io/comparison-jp-sg-nationalhealth/",
+  hawker: "https://jumjum1102.github.io/Hawker-hisrory/",
+  transport: "https://jumjum1102.github.io/transportation-singapore/"
+};
+
 /* Custom cursor */
 const cur = document.getElementById('cur');
 const curR = document.getElementById('cur-r');
@@ -776,12 +770,14 @@ document.addEventListener('click',e=>{
 /* Navigation */
 function goPage(url){
   if(url) window.location.href = url;
-  fab.classList.remove('open'); panel.classList.remove('open');
+  fab.classList.remove('open');
+  panel.classList.remove('open');
 }
 function scrollTo2(sel){
   const el = document.querySelector(sel);
   if(el) el.scrollIntoView({behavior:'smooth'});
-  fab.classList.remove('open'); panel.classList.remove('open');
+  fab.classList.remove('open');
+  panel.classList.remove('open');
 }
 
 /* Fade observer */
