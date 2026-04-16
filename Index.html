@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Singapore Life Guide | シンガポール生活ガイド</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+/* ══════ RESET & BASE ══════ */
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:#080808;color:#f0ede8;overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:'DM Sans',sans-serif;border:none;background:none;}
+img{display:block;}
+
+/* ══════ CUSTOM CURSOR (desktop only) ══════ */
+@media(pointer:fine){
+  *{cursor:none !important;}
+  .cursor{
+    position:fixed;width:8px;height:8px;
+    background:#c9a84c;border-radius:50%;
+    pointer-events:none;z-index:9999;
+    transform:translate(-50%,-50%);
+    transition:width .25s,height .25s;
+  }
+  .cursor-ring{
+    position:fixed;width:38px;height:38px;
+    border:1px solid rgba(201,168,76,.4);border-radius:50%;
+    pointer-events:none;z-index:9998;
+    transform:translate(-50%,-50%);
+    transition:width .3s,height .3s;
+  }
+  .cursor.big{width:14px;height:14px;}
+  .cursor-ring.big{width:56px;height:56px;}
+}
+
+/* ══════ FADE ANIMATION ══════ */
+.fade{opacity:0;transform:translateY(36px);transition:opacity .8s ease,transform .8s ease;}
+.fade.vis{opacity:1;transform:translateY(0);}
+.fade.d1{transition-delay:.12s;}
+.fade.d2{transition-delay:.24s;}
+.fade.d3{transition-delay:.36s;}
+.fade.d4{transition-delay:.48s;}
+.fade-l{opacity:0;transform:translateX(-36px);transition:opacity .85s ease,transform .85s ease;}
+.fade-l.vis{opacity:1;transform:translateX(0);}
+.fade-r{opacity:0;transform:translateX(36px);transition:opacity .85s ease,transform .85s ease;}
+.fade-r.vis{opacity:1;transform:translateX(0);}
+
+/* ══════ HEADER ══════ */
+#hdr{
+  position:fixed;top:0;left:0;right:0;z-index:400;
+  padding:22px 52px;
+  display:flex;justify-content:space-between;align-items:center;
+  transition:background .4s,padding .4s,border-color .4s;
+  border-bottom:1px solid transparent;
+}
+#hdr.sc{
+  background:rgba(8,8,8,.94);
+  backdrop-filter:blur(18px);
+  padding:14px 52px;
+  border-bottom-color:rgba(201,168,76,.12);
+}
+.logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(17px,2vw,22px);
+  font-weight:300;letter-spacing:5px;color:#f0ede8;
+}
+.logo b{font-weight:600;color:#c9a84c;}
+.hdr-tag{font-size:10px;letter-spacing:3px;color:rgba(240,237,232,.3);text-transform:uppercase;}
+
+/* ══════ FLOATING BUTTON ══════ */
+#fab{
+  position:fixed;bottom:32px;right:32px;z-index:600;
+  width:58px;height:58px;border-radius:50%;
+  background:#c9a84c;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 32px rgba(0,0,0,.5),0 0 0 0 rgba(201,168,76,.3);
+  transition:transform .3s,box-shadow .3s;
+}
+#fab:hover{transform:scale(1.07);box-shadow:0 12px 40px rgba(0,0,0,.5),0 0 0 8px rgba(201,168,76,.12);}
+#fab.open{background:#f0ede8;}
+#fab svg{width:20px;height:20px;fill:none;stroke:#080808;stroke-width:2.2;stroke-linecap:round;transition:transform .35s ease;}
+#fab.open svg{transform:rotate(45deg);}
+
+/* Floating panel */
+#fab-panel{
+  position:fixed;bottom:104px;right:32px;z-index:599;width:264px;
+  background:rgba(12,12,12,.97);
+  border:1px solid rgba(201,168,76,.18);
+  backdrop-filter:blur(24px);
+  padding:22px 20px;
+  transform:translateY(16px) scale(.96);
+  opacity:0;pointer-events:none;
+  transition:transform .38s cubic-bezier(.23,1,.32,1),opacity .3s ease;
+  box-shadow:0 24px 60px rgba(0,0,0,.7);
+}
+#fab-panel.open{transform:translateY(0) scale(1);opacity:1;pointer-events:all;}
+.fp-ttl{
+  font-size:9px;letter-spacing:4px;color:rgba(240,237,232,.25);
+  text-transform:uppercase;margin-bottom:14px;
+  padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.05);
+}
+.fp-item{
+  display:flex;align-items:center;gap:11px;
+  padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04);
+  cursor:pointer;
+}
+.fp-item:last-child{border-bottom:none;}
+.fp-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.fp-n{font-size:10px;color:rgba(240,237,232,.2);font-family:'Cormorant Garamond',serif;min-width:18px;}
+.fp-name{font-size:13px;color:#f0ede8;font-weight:500;transition:color .2s;}
+.fp-item:hover .fp-name{color:#c9a84c;}
+.fp-arr{font-size:11px;color:rgba(240,237,232,.18);margin-left:auto;transition:color .2s;}
+.fp-item:hover .fp-arr{color:#c9a84c;}
+.fp-badge{
+  font-size:8px;letter-spacing:1px;
+  border:1px solid rgba(201,168,76,.25);
+  color:rgba(201,168,76,.5);
+  padding:2px 7px;margin-left:auto;
+  text-transform:uppercase;
+}
+.fp-item.disabled{opacity:.3;cursor:default;}
+.fp-item.disabled:hover .fp-name,.fp-item.disabled:hover .fp-arr{color:inherit;}
+
+/* ══════ HERO ══════ */
+#hero{
+  position:relative;height:100svh;min-height:620px;
+  display:flex;align-items:flex-end;overflow:hidden;
+}
+#hero-bg{
+  position:absolute;inset:0;
+  background:url('https://images.unsplash.com/photo-1508780709619-79562169bc64?w=1600&q=85') center 40%/cover no-repeat;
+  transform:scale(1.06);transition:transform 9s ease;
+  filter:brightness(.5);
+}
+#hero-bg.rdy{transform:scale(1);}
+.hero-ov{
+  position:absolute;inset:0;
+  background:linear-gradient(165deg,rgba(8,8,8,.05) 0%,rgba(8,8,8,.55) 50%,rgba(8,8,8,.97) 100%);
+}
+.hero-body{
+  position:relative;z-index:2;
+  padding:0 52px 76px;width:100%;
+}
+.hero-eyebrow{
+  font-size:10px;letter-spacing:6px;color:rgba(201,168,76,.75);
+  text-transform:uppercase;margin-bottom:22px;
+  display:flex;align-items:center;gap:18px;
+}
+.hero-eyebrow::before{content:'';width:36px;height:1px;background:rgba(201,168,76,.45);}
+h1.hero-t{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:clamp(52px,9vw,120px);
+  font-weight:300;line-height:1.0;color:#f0ede8;
+  letter-spacing:-2px;margin-bottom:6px;
+}
+h1.hero-t em{font-style:italic;color:#c9a84c;}
+.hero-sub{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(16px,2.2vw,28px);font-weight:300;
+  color:rgba(240,237,232,.45);letter-spacing:7px;
+  text-transform:uppercase;margin-bottom:32px;
+}
+.hero-p{font-size:15px;color:rgba(240,237,232,.55);line-height:1.9;max-width:460px;margin-bottom:44px;}
+.hero-scrl{
+  display:flex;align-items:center;gap:14px;
+  font-size:10px;letter-spacing:3px;color:rgba(240,237,232,.25);text-transform:uppercase;
+}
+.scrl-line{width:56px;height:1px;background:rgba(240,237,232,.15);overflow:hidden;position:relative;}
+.scrl-line::after{
+  content:'';position:absolute;left:-100%;top:0;
+  width:100%;height:100%;background:#c9a84c;
+  animation:sline 2.4s ease infinite;
+}
+@keyframes sline{0%{left:-100%;}100%{left:100%;}}
+
+.hero-nums{
+  position:absolute;right:52px;bottom:76px;z-index:2;
+  display:flex;flex-direction:column;gap:22px;align-items:flex-end;
+}
+.hero-num{text-align:right;}
+.hero-num-v{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(22px,2.8vw,34px);font-weight:700;
+  color:#c9a84c;line-height:1;
+}
+.hero-num-l{
+  font-size:10px;letter-spacing:2px;
+  color:rgba(240,237,232,.28);text-transform:uppercase;margin-top:4px;
+}
+
+/* ══════ MARQUEE ══════ */
+#mq{
+  padding:22px 0;background:#c9a84c;
+  overflow:hidden;white-space:nowrap;
+}
+.mq-track{display:inline-flex;animation:mq 28s linear infinite;}
+@keyframes mq{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.mq-item{
+  font-family:'Cormorant Garamond',serif;
+  font-size:14px;font-weight:300;color:#080808;
+  letter-spacing:5px;text-transform:uppercase;
+  padding:0 44px;
+  display:inline-flex;align-items:center;gap:44px;
+}
+.mq-dot{width:4px;height:4px;border-radius:50%;background:rgba(8,8,8,.25);}
+
+/* ══════ BRANCHES ══════ */
+#branches{padding:116px 52px;background:#080808;}
+.br-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:68px;}
+.br-left{}
+.br-lbl{font-size:10px;letter-spacing:4px;color:#c9a84c;text-transform:uppercase;margin-bottom:14px;}
+.br-ttl{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(30px,5vw,58px);font-weight:300;
+  color:#f0ede8;line-height:1.18;
+}
+.br-ttl em{font-style:italic;color:#c9a84c;}
+.br-note{font-size:12px;color:rgba(240,237,232,.28);line-height:1.8;max-width:260px;text-align:right;}
+
+/* Active 3 cards */
+.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:2px;}
+
+.card{
+  position:relative;overflow:hidden;
+  aspect-ratio:5/6;cursor:pointer;
+  background:#0f0f0f;
+}
+.card img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;
+  filter:brightness(.38) saturate(.65);
+  transform:scale(1.05);
+  transition:filter .65s ease,transform .65s ease;
+}
+.card:hover img{filter:brightness(.28) saturate(.4);transform:scale(1.12);}
+.card-ov{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(8,8,8,.98) 0%,rgba(8,8,8,.22) 55%,transparent 100%);
+}
+.card-num{
+  position:absolute;top:20px;right:22px;
+  font-family:'Cormorant Garamond',serif;
+  font-size:68px;font-weight:300;
+  color:rgba(201,168,76,.1);line-height:1;
+  transition:color .4s;
+}
+.card:hover .card-num{color:rgba(201,168,76,.22);}
+.card-body{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:28px 26px;
+}
+.card-tag{
+  font-size:9px;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(201,168,76,.65);margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.card-tag::before{content:'';width:18px;height:1px;background:rgba(201,168,76,.4);}
+.card-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(18px,2.2vw,28px);font-weight:600;
+  color:#f0ede8;line-height:1.25;margin-bottom:10px;
+}
+.card-desc{font-size:12px;color:rgba(240,237,232,.45);line-height:1.7;margin-bottom:18px;}
+.card-cta{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#c9a84c;
+  padding-bottom:5px;border-bottom:1px solid rgba(201,168,76,.25);
+  transition:gap .3s,border-color .3s;
+}
+.card:hover .card-cta{gap:18px;border-color:#c9a84c;}
+.cta-line{width:18px;height:1px;background:#c9a84c;position:relative;transition:width .3s;}
+.card:hover .cta-line{width:28px;}
+.cta-line::after{
+  content:'';position:absolute;right:0;top:-2px;
+  width:5px;height:5px;
+  border-top:1px solid #c9a84c;border-right:1px solid #c9a84c;
+  transform:rotate(45deg);
+}
+
+/* Coming-soon 4 cards */
+.cards4{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;}
+.card-cs{
+  position:relative;overflow:hidden;
+  aspect-ratio:1/1;cursor:default;background:#0d0d0d;
+}
+.card-cs img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;
+  filter:brightness(.18) saturate(0);
+  transform:scale(1.04);
+  transition:filter .5s;
+}
+.card-cs:hover img{filter:brightness(.22) saturate(0);}
+.card-cs-ov{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(8,8,8,.95) 0%,rgba(8,8,8,.1) 100%);
+}
+.cs-num{
+  position:absolute;top:16px;right:18px;
+  font-family:'Cormorant Garamond',serif;
+  font-size:40px;font-weight:300;
+  color:rgba(255,255,255,.06);line-height:1;
+}
+.cs-body{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:20px 18px;
+}
+.cs-tag{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(240,237,232,.15);margin-bottom:6px;}
+.cs-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:16px;font-weight:600;
+  color:rgba(240,237,232,.22);line-height:1.3;
+}
+.cs-badge{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-size:8px;letter-spacing:4px;
+  text-transform:uppercase;
+  color:rgba(240,237,232,.15);
+  border:1px solid rgba(240,237,232,.08);
+  padding:7px 18px;
+  transition:color .3s,border-color .3s;
+}
+.card-cs:hover .cs-badge{color:rgba(201,168,76,.35);border-color:rgba(201,168,76,.15);}
+
+/* ══════ ABOUT ══════ */
+#about{
+  padding:116px 52px;
+  background:#0c0c0c;
+  border-top:1px solid rgba(255,255,255,.04);
+}
+.about-in{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.about-img-w{position:relative;}
+.about-img{width:100%;height:500px;object-fit:cover;filter:brightness(.7) saturate(.8);}
+.about-img-cap{
+  position:absolute;bottom:-14px;right:-14px;
+  background:#c9a84c;padding:12px 18px;
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:#080808;font-weight:700;
+}
+.about-lbl{font-size:10px;letter-spacing:4px;color:#c9a84c;text-transform:uppercase;margin-bottom:14px;}
+.about-t{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(26px,4vw,48px);font-weight:300;
+  color:#f0ede8;line-height:1.25;margin-bottom:24px;
+}
+.about-t em{font-style:italic;}
+.about-p{font-size:14px;color:rgba(240,237,232,.45);line-height:1.9;margin-bottom:16px;}
+.about-hr{width:40px;height:1px;background:rgba(201,168,76,.35);margin:22px 0;}
+.about-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.ast-v{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:#c9a84c;line-height:1;}
+.ast-l{font-size:11px;color:rgba(240,237,232,.28);margin-top:6px;line-height:1.5;}
+
+/* ══════ GALLERY ══════ */
+#gallery{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.2fr;gap:2px;height:300px;}
+.gl-item{overflow:hidden;position:relative;}
+.gl-item img{width:100%;height:100%;object-fit:cover;filter:brightness(.5) saturate(.7);transform:scale(1.04);transition:filter .6s,transform .6s;}
+.gl-item:hover img{filter:brightness(.4);transform:scale(1.1);}
+.gl-lbl{position:absolute;bottom:14px;left:14px;font-size:9px;letter-spacing:2px;color:rgba(240,237,232,.35);text-transform:uppercase;}
+
+/* ══════ FOOTER ══════ */
+#footer{padding:68px 52px 44px;background:#050505;border-top:1px solid rgba(255,255,255,.04);}
+.ft-in{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:60px;margin-bottom:56px;}
+.ft-logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;letter-spacing:3px;color:#f0ede8;margin-bottom:14px;}
+.ft-logo b{color:#c9a84c;font-weight:600;}
+.ft-desc{font-size:13px;color:rgba(240,237,232,.28);line-height:1.8;max-width:240px;}
+.ft-col-t{font-size:10px;letter-spacing:3px;color:#c9a84c;text-transform:uppercase;margin-bottom:18px;}
+.ft-lnk{
+  display:block;font-size:13px;color:rgba(240,237,232,.3);
+  padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);
+  transition:color .2s;cursor:pointer;
+}
+.ft-lnk:hover{color:#c9a84c;}
+.ft-lnk.dim{opacity:.3;cursor:default;}
+.ft-lnk.dim:hover{color:rgba(240,237,232,.3);}
+.ft-btm{
+  max-width:1040px;margin:0 auto;
+  display:flex;justify-content:space-between;align-items:center;
+  padding-top:24px;border-top:1px solid rgba(255,255,255,.05);
+  font-size:11px;color:rgba(240,237,232,.18);
+}
+
+/* ══════ RESPONSIVE ══════ */
+@media(max-width:1000px){
+  .cards3{grid-template-columns:1fr 1fr;}
+  .cards4{grid-template-columns:repeat(4,1fr);}
+  .about-in{grid-template-columns:1fr;gap:48px;}
+  .about-img{height:360px;}
+  #gallery{grid-template-columns:1fr 1fr;height:auto;}
+  .gl-item{height:220px;}
+  .ft-in{grid-template-columns:1fr 1fr;gap:40px;}
+}
+@media(max-width:640px){
+  #hdr{padding:14px 20px;}
+  #hdr.sc{padding:12px 20px;}
+  .hdr-tag{display:none;}
+  .hero-body{padding:0 20px 64px;}
+  h1.hero-t{font-size:clamp(40px,11vw,58px);}
+  .hero-sub{font-size:15px;letter-spacing:5px;}
+  .hero-nums{display:none;}
+  .hero-scrl{display:none;}
+  #branches{padding:72px 20px;}
+  .br-head{flex-direction:column;gap:14px;margin-bottom:44px;}
+  .br-note{text-align:left;max-width:100%;}
+  .cards3{grid-template-columns:1fr;}
+  .card{aspect-ratio:3/2;}
+  .cards4{grid-template-columns:1fr 1fr;}
+  .card-cs{aspect-ratio:3/2;}
+  #about{padding:72px 20px;}
+  .about-img{height:260px;}
+  .about-img-cap{right:-8px;bottom:-8px;}
+  .about-stats{grid-template-columns:1fr 1fr;}
+  #gallery{grid-template-columns:1fr;height:auto;}
+  .gl-item{height:180px;}
+  #footer{padding:56px 20px 36px;}
+  .ft-in{grid-template-columns:1fr;gap:32px;}
+  .ft-btm{flex-direction:column;gap:6px;text-align:center;}
+  #fab{bottom:22px;right:22px;width:52px;height:52px;}
+  #fab svg{width:18px;height:18px;}
+  #fab-panel{right:22px;bottom:86px;width:248px;}
+}
+
+/* ══════ NOISE OVERLAY ══════ */
+body::after{
+  content:'';position:fixed;inset:0;z-index:1;pointer-events:none;
+  opacity:.022;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:200px;
+}
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="cur-r"></div>
+
+<!-- ══════════ HEADER ══════════ -->
+<header id="hdr">
+  <div class="logo">SINGAPORE<b>GUIDE</b></div>
+  <span class="hdr-tag">シンガポール生活情報</span>
+</header>
+
+<!-- ══════════ FLOATING BUTTON ══════════ -->
+<button id="fab" onclick="toggleFab()" aria-label="メニュー">
+  <svg viewBox="0 0 24 24">
+    <line x1="4" y1="6" x2="20" y2="6"/>
+    <line x1="4" y1="12" x2="20" y2="12"/>
+    <line x1="4" y1="18" x2="20" y2="18"/>
+  </svg>
+</button>
+
+<div id="fab-panel">
+  <div class="fp-ttl">Contents / コンテンツ</div>
+
+  <div class="fp-item" onclick="scrollTo2('#branches')">
+    <div class="fp-dot" style="background:#c9a84c;"></div>
+    <span class="fp-n">—</span>
+    <span class="fp-name">すべてのガイド</span>
+    <span class="fp-arr">↓</span>
+  </div>
+
+  <div class="fp-item" onclick="goPage('healthcare.html')">
+    <div class="fp-dot" style="background:#5B8DB8;"></div>
+    <span class="fp-n">01</span>
+    <span class="fp-name">公的医療保険制度</span>
+    <span class="fp-arr">↗</span>
+  </div>
+
+  <div class="fp-item" onclick="goPage('hawker.html')">
+    <div class="fp-dot" style="background:#C07840;"></div>
+    <span class="fp-n">02</span>
+    <span class="fp-name">ホーカー食文化</span>
+    <span class="fp-arr">↗</span>
+  </div>
+
+  <div class="fp-item" onclick="goPage('transport.html')">
+    <div class="fp-dot" style="background:#3A7D5B;"></div>
+    <span class="fp-n">03</span>
+    <span class="fp-name">交通・空港</span>
+    <span class="fp-arr">↗</span>
+  </div>
+
+  <div class="fp-item disabled">
+    <div class="fp-dot" style="background:#444;"></div>
+    <span class="fp-n">04</span>
+    <span class="fp-name">不動産・住宅事情</span>
+    <span class="fp-badge">準備中</span>
+  </div>
+
+  <div class="fp-item disabled">
+    <div class="fp-dot" style="background:#444;"></div>
+    <span class="fp-n">05+</span>
+    <span class="fp-name">順次追加予定</span>
+    <span class="fp-badge">TBA</span>
+  </div>
+</div>
+
+<!-- ══════════ HERO ══════════ -->
+<div id="hero">
+  <div id="hero-bg"></div>
+  <div class="hero-ov"></div>
+
+  <div class="hero-body">
+    <div class="hero-eyebrow fade vis">Singapore Life Guide</div>
+    <h1 class="hero-t fade vis d1"><em>Life in</em><br>Singapore</h1>
+    <p class="hero-sub fade vis d2">シンガポール生活ガイド</p>
+    <p class="hero-p fade vis d3">世界が注目するシティ・ステートで暮らすために知っておきたい、医療・食文化・交通——生活の全側面を深掘りするナレッジベース。</p>
+    <div class="hero-scrl fade vis d4">
+      <div class="scrl-line"></div>
+      <span>Scroll to Explore</span>
+    </div>
+  </div>
+
+  <div class="hero-nums">
+    <div class="hero-num fade vis d2">
+      <div class="hero-num-v">5.9M</div>
+      <div class="hero-num-l">人口</div>
+    </div>
+    <div class="hero-num fade vis d3">
+      <div class="hero-num-v">#1</div>
+      <div class="hero-num-l">Skytrax空港</div>
+    </div>
+    <div class="hero-num fade vis d4">
+      <div class="hero-num-v">160+</div>
+      <div class="hero-num-l">国籍が共存</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MARQUEE ══════════ -->
+<div id="mq">
+  <div class="mq-track">
+    <span class="mq-item">Healthcare<span class="mq-dot"></span></span>
+    <span class="mq-item">Hawker Culture<span class="mq-dot"></span></span>
+    <span class="mq-item">Transport &amp; Airport<span class="mq-dot"></span></span>
+    <span class="mq-item">Real Estate<span class="mq-dot"></span></span>
+    <span class="mq-item">Education<span class="mq-dot"></span></span>
+    <span class="mq-item">Business<span class="mq-dot"></span></span>
+    <span class="mq-item">Cost of Living<span class="mq-dot"></span></span>
+    <span class="mq-item">Healthcare<span class="mq-dot"></span></span>
+    <span class="mq-item">Hawker Culture<span class="mq-dot"></span></span>
+    <span class="mq-item">Transport &amp; Airport<span class="mq-dot"></span></span>
+    <span class="mq-item">Real Estate<span class="mq-dot"></span></span>
+    <span class="mq-item">Education<span class="mq-dot"></span></span>
+    <span class="mq-item">Business<span class="mq-dot"></span></span>
+    <span class="mq-item">Cost of Living<span class="mq-dot"></span></span>
+  </div>
+</div>
+
+<!-- ══════════ BRANCHES ══════════ -->
+<section id="branches">
+  <div class="br-head fade">
+    <div>
+      <div class="br-lbl">Guide Contents</div>
+      <h2 class="br-ttl">シンガポールを<br><em>深く知る</em></h2>
+    </div>
+    <p class="br-note">各カードをクリックして詳細ガイドへ。<br>順次カテゴリを追加予定。</p>
+  </div>
+
+  <!-- Active 3 cards -->
+  <div class="cards3">
+
+    <div class="card fade" onclick="goPage('healthcare.html')">
+      <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80" alt="Healthcare">
+      <div class="card-ov"></div>
+      <div class="card-num">01</div>
+      <div class="card-body">
+        <div class="card-tag">Social Security</div>
+        <h3 class="card-title">公的医療保険制度</h3>
+        <p class="card-desc">日本との制度比較から3M・Medisave・MediShield Lifeまで。シンガポールの医療制度を完全解説。</p>
+        <div class="card-cta">Read Guide<div class="cta-line"></div></div>
+      </div>
+    </div>
+
+    <div class="card fade d1" onclick="goPage('hawker.html')">
+      <img src="https://images.unsplash.com/photo-1529543544282-ea669407fca3?w=800&q=80" alt="Hawker Culture">
+      <div class="card-ov"></div>
+      <div class="card-num">02</div>
+      <div class="card-body">
+        <div class="card-tag">Food Culture</div>
+        <h3 class="card-title">ホーカーセンター<br>食文化ガイド</h3>
+        <p class="card-desc">UNESCO無形文化遺産。チキンライスからラクサまで、シンガポール食文化の歴史と全貌。</p>
+        <div class="card-cta">Read Guide<div class="cta-line"></div></div>
+      </div>
+    </div>
+
+    <div class="card fade d2" onclick="goPage('transport.html')">
+      <img src="https://images.unsplash.com/photo-1565043666747-69f6646db940?w=800&q=80" alt="Singapore Transport">
+      <div class="card-ov"></div>
+      <div class="card-num">03</div>
+      <div class="card-body">
+        <div class="card-tag">Transport & Airport</div>
+        <h3 class="card-title">交通・チャンギ<br>空港ガイド</h3>
+        <p class="card-desc">世界No.1空港・MRT・COE制度。シンガポールが誇る交通インフラの全貌と未来計画。</p>
+        <div class="card-cta">Read Guide<div class="cta-line"></div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Coming-soon 4 cards -->
+  <div class="cards4">
+
+    <div class="card-cs fade d1">
+      <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&q=60" alt="Real Estate">
+      <div class="card-cs-ov"></div>
+      <div class="cs-num">04</div>
+      <div class="cs-body">
+        <div class="cs-tag">Real Estate</div>
+        <div class="cs-title">不動産・住宅事情</div>
+      </div>
+      <div class="cs-badge">Coming Soon</div>
+    </div>
+
+    <div class="card-cs fade d2">
+      <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=60" alt="Education">
+      <div class="card-cs-ov"></div>
+      <div class="cs-num">05</div>
+      <div class="cs-body">
+        <div class="cs-tag">Education</div>
+        <div class="cs-title">教育制度</div>
+      </div>
+      <div class="cs-badge">Coming Soon</div>
+    </div>
+
+    <div class="card-cs fade d3">
+      <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&q=60" alt="Business">
+      <div class="card-cs-ov"></div>
+      <div class="cs-num">06</div>
+      <div class="cs-body">
+        <div class="cs-tag">Business</div>
+        <div class="cs-title">ビジネス環境</div>
+      </div>
+      <div class="cs-badge">Coming Soon</div>
+    </div>
+
+    <div class="card-cs fade d4">
+      <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&q=60" alt="Cost of Living">
+      <div class="card-cs-ov"></div>
+      <div class="cs-num">07</div>
+      <div class="cs-body">
+        <div class="cs-tag">Cost of Living</div>
+        <div class="cs-title">生活コスト</div>
+      </div>
+      <div class="cs-badge">Coming Soon</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ ABOUT ══════════ -->
+<section id="about">
+  <div class="about-in">
+    <div class="about-img-w fade-l">
+      <img class="about-img" src="https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=900&q=80" alt="Singapore">
+      <div class="about-img-cap">Marina Bay · Singapore</div>
+    </div>
+    <div class="fade-r">
+      <div class="about-lbl">About This Guide</div>
+      <h2 class="about-t">世界の縮図、<br><em>シンガポール</em>を<br>徹底解剖。</h2>
+      <p class="about-p">実際にシンガポールに住んでみて感じた「リアルな驚き」を起点に、制度・文化・インフラを深掘りするナレッジベース。数字とファクトを軸に、表面的な情報を超えた洞察を届けます。</p>
+      <p class="about-p">公的医療保険の仕組みから、UNESCO認定のホーカー文化、世界No.1の空港——それぞれのテーマを研究者の視点で体系化しています。</p>
+      <div class="about-hr"></div>
+      <div class="about-stats">
+        <div><div class="ast-v">3</div><div class="ast-l">公開済みガイド</div></div>
+        <div><div class="ast-v">7+</div><div class="ast-l">予定コンテンツ</div></div>
+        <div><div class="ast-v">2025</div><div class="ast-l">最新データ対応</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ GALLERY ══════════ -->
+<div id="gallery">
+  <div class="gl-item">
+    <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=700&q=75" alt="Changi Airport">
+    <div class="gl-lbl">Changi Airport</div>
+  </div>
+  <div class="gl-item">
+    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=75" alt="Hawker Food">
+    <div class="gl-lbl">Hawker Culture</div>
+  </div>
+  <div class="gl-item">
+    <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600&q=75" alt="Healthcare">
+    <div class="gl-lbl">Healthcare</div>
+  </div>
+  <div class="gl-item">
+    <img src="https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=600&q=75" alt="Singapore Future">
+    <div class="gl-lbl">The Future</div>
+  </div>
+</div>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer id="footer">
+  <div class="ft-in">
+    <div>
+      <div class="ft-logo">SINGAPORE<b>GUIDE</b></div>
+      <p class="ft-desc">シンガポールで暮らすために必要な知識を、データと現地視点でまとめたナレッジベース。</p>
+    </div>
+    <div>
+      <div class="ft-col-t">Contents</div>
+      <a class="ft-lnk" onclick="goPage('healthcare.html')">01 — 公的医療保険制度</a>
+      <a class="ft-lnk" onclick="goPage('hawker.html')">02 — ホーカー食文化</a>
+      <a class="ft-lnk" onclick="goPage('transport.html')">03 — 交通・空港</a>
+      <a class="ft-lnk dim">04 — 不動産・住宅事情</a>
+      <a class="ft-lnk dim">05 — 教育制度</a>
+      <a class="ft-lnk dim">06 — ビジネス環境</a>
+      <a class="ft-lnk dim">07 — 生活コスト</a>
+    </div>
+    <div>
+      <div class="ft-col-t">Information</div>
+      <p class="ft-lnk" style="cursor:default;">最新データ: 2025年</p>
+      <p class="ft-lnk" style="cursor:default;">対象: シンガポール在住・移住検討者</p>
+      <p class="ft-lnk" style="cursor:default;">情報源: 各省庁・公開統計</p>
+    </div>
+  </div>
+  <div class="ft-btm">
+    <span>© 2025 Singapore Life Guide. All rights reserved.</span>
+    <span>Images: Unsplash (CC0 License)</span>
+  </div>
+</footer>
+
+<!-- ══════════ JS ══════════ -->
+<script>
+/* Custom cursor */
+const cur = document.getElementById('cur');
+const curR = document.getElementById('cur-r');
+if(cur && curR){
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX; my=e.clientY;
+    cur.style.left=mx+'px'; cur.style.top=my+'px';
+  });
+  (function ani(){
+    rx+=(mx-rx)*.11; ry+=(my-ry)*.11;
+    curR.style.left=rx+'px'; curR.style.top=ry+'px';
+    requestAnimationFrame(ani);
+  })();
+  const hov=['button','a','.card','.fp-item'];
+  document.querySelectorAll(hov.join(',')).forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cur.classList.add('big');curR.classList.add('big');});
+    el.addEventListener('mouseleave',()=>{cur.classList.remove('big');curR.classList.remove('big');});
+  });
+}
+
+/* Header scroll */
+const hdr = document.getElementById('hdr');
+window.addEventListener('scroll',()=>{ hdr.classList.toggle('sc',window.scrollY>50); });
+
+/* Hero parallax + bg ready */
+const heroBg = document.getElementById('hero-bg');
+window.addEventListener('load',()=>{ heroBg.classList.add('rdy'); });
+window.addEventListener('scroll',()=>{
+  if(window.scrollY < window.innerHeight)
+    heroBg.style.transform = `scale(1) translateY(${window.scrollY*.22}px)`;
+});
+
+/* Floating menu */
+const fab = document.getElementById('fab');
+const panel = document.getElementById('fab-panel');
+function toggleFab(){
+  fab.classList.toggle('open');
+  panel.classList.toggle('open');
+}
+document.addEventListener('click',e=>{
+  if(!fab.contains(e.target) && !panel.contains(e.target)){
+    fab.classList.remove('open');
+    panel.classList.remove('open');
+  }
+});
+
+/* Navigation */
+function goPage(url){
+  if(url) window.location.href = url;
+  fab.classList.remove('open'); panel.classList.remove('open');
+}
+function scrollTo2(sel){
+  const el = document.querySelector(sel);
+  if(el) el.scrollIntoView({behavior:'smooth'});
+  fab.classList.remove('open'); panel.classList.remove('open');
+}
+
+/* Fade observer */
+const fades = document.querySelectorAll('.fade,.fade-l,.fade-r');
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('vis'); });
+},{threshold:0.1});
+fades.forEach(el=>{ if(!el.classList.contains('vis')) obs.observe(el); });
+</script>
+</body>
+</html>
