@@ -44,6 +44,7 @@ img{display:block;}
 .fade.d3{transition-delay:.36s;}
 .fade.d4{transition-delay:.48s;}
 .fade.d5{transition-delay:.60s;}
+.fade.d6{transition-delay:.72s;}
 .fade-l{opacity:0;transform:translateX(-36px);transition:opacity .85s ease,transform .85s ease;}
 .fade-l.vis{opacity:1;transform:translateX(0);}
 .fade-r{opacity:0;transform:translateX(36px);transition:opacity .85s ease,transform .85s ease;}
@@ -221,7 +222,7 @@ h1.hero-t em{font-style:italic;color:#c9a84c;}
 .br-note{font-size:12px;color:rgba(240,237,232,.28);line-height:1.8;max-width:260px;text-align:right;}
 
 /* Active guide cards */
-.cards3{display:grid;grid-template-columns:repeat(6,1fr);gap:2px;margin-bottom:2px;}
+.cards3{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:2px;}
 
 .card{
   position:relative;overflow:hidden;
@@ -305,6 +306,17 @@ h1.hero-t em{font-style:italic;color:#c9a84c;}
 .card-money:hover .card-cta{border-color:#84E2AD;}
 .card-money .cta-line{background:#84E2AD;}
 .card-money .cta-line::after{border-top-color:#84E2AD;border-right-color:#84E2AD;}
+
+.card-culture img{filter:brightness(.34) saturate(.58) hue-rotate(-18deg);}
+.card-culture:hover img{filter:brightness(.25) saturate(.42) hue-rotate(-18deg);}
+.card-culture .card-tag{color:rgba(255,146,146,.86);}
+.card-culture .card-tag::before{background:rgba(255,146,146,.55);}
+.card-culture .card-num{color:rgba(255,146,146,.14);}
+.card-culture:hover .card-num{color:rgba(255,146,146,.28);}
+.card-culture .card-cta{color:#FF9292;border-bottom-color:rgba(255,146,146,.34);}
+.card-culture:hover .card-cta{border-color:#FF9292;}
+.card-culture .cta-line{background:#FF9292;}
+.card-culture .cta-line::after{border-top-color:#FF9292;border-right-color:#FF9292;}
 
 .cta-line::after{
   content:'';position:absolute;right:0;top:-2px;
@@ -417,8 +429,8 @@ h1.hero-t em{font-style:italic;color:#c9a84c;}
 }
 
 /* ══════ RESPONSIVE ══════ */
-@media(max-width:1200px){
-  .cards3{grid-template-columns:repeat(3,1fr);}
+@media(max-width:1400px){
+  .cards3{grid-template-columns:repeat(4,1fr);}
 }
 @media(max-width:1000px){
   .cards3{grid-template-columns:1fr 1fr;}
@@ -531,16 +543,23 @@ body::after{
     <span class="fp-arr">↗</span>
   </div>
 
+  <div class="fp-item" onclick="goPage('https://jumjum1102.github.io/culture-religion/')">
+    <div class="fp-dot" style="background:#FF9292;"></div>
+    <span class="fp-n">06</span>
+    <span class="fp-name">文化・宗教</span>
+    <span class="fp-arr">↗</span>
+  </div>
+
   <div class="fp-item" onclick="goPage('https://jumjum1102.github.io/comparison-jp-sg-nationalhealth/')">
     <div class="fp-dot" style="background:#5B8DB8;"></div>
-    <span class="fp-n">06</span>
+    <span class="fp-n">07</span>
     <span class="fp-name">公的医療保険制度</span>
     <span class="fp-arr">↗</span>
   </div>
 
   <div class="fp-item disabled">
     <div class="fp-dot" style="background:#444;"></div>
-    <span class="fp-n">07+</span>
+    <span class="fp-n">08+</span>
     <span class="fp-name">順次追加予定</span>
     <span class="fp-badge">TBA</span>
   </div>
@@ -554,7 +573,7 @@ body::after{
     <div class="hero-eyebrow fade vis">Singapore Life Guide</div>
     <h1 class="hero-t fade vis d1"><em>Life in</em><br>Singapore</h1>
     <p class="hero-sub fade vis d2">シンガポール生活ガイド</p>
-    <p class="hero-p fade vis d3">世界が注目するシティ・ステートで暮らすために知っておきたい、食文化・交通・教育・住まい・お金・医療――生活の全側面を深掘りするナレッジベース。</p>
+    <p class="hero-p fade vis d3">世界が注目するシティ・ステートで暮らすために知っておきたい、食文化・交通・教育・住まい・お金・文化・医療――生活の全側面を深掘りするナレッジベース。</p>
     <div class="hero-scrl fade vis d4">
       <div class="scrl-line"></div>
       <span>Scroll to Explore</span>
@@ -584,6 +603,7 @@ body::after{
     <span class="mq-item">Education<span class="mq-dot"></span></span>
     <span class="mq-item">Real Estate<span class="mq-dot"></span></span>
     <span class="mq-item">Money Guide<span class="mq-dot"></span></span>
+    <span class="mq-item">Culture &amp; Religion<span class="mq-dot"></span></span>
     <span class="mq-item">Healthcare<span class="mq-dot"></span></span>
     <span class="mq-item">Business<span class="mq-dot"></span></span>
     <span class="mq-item">Cost of Living<span class="mq-dot"></span></span>
@@ -592,6 +612,7 @@ body::after{
     <span class="mq-item">Education<span class="mq-dot"></span></span>
     <span class="mq-item">Real Estate<span class="mq-dot"></span></span>
     <span class="mq-item">Money Guide<span class="mq-dot"></span></span>
+    <span class="mq-item">Culture &amp; Religion<span class="mq-dot"></span></span>
     <span class="mq-item">Healthcare<span class="mq-dot"></span></span>
     <span class="mq-item">Business<span class="mq-dot"></span></span>
     <span class="mq-item">Cost of Living<span class="mq-dot"></span></span>
@@ -669,10 +690,22 @@ body::after{
       </div>
     </div>
 
-    <div class="card fade d5" onclick="goPage('https://jumjum1102.github.io/comparison-jp-sg-nationalhealth/')">
-      <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Ng%20Teng%20Fong%20General%20Hospital%20and%20Jurong%20Community%20Hospital.jpg" alt="Healthcare">
+    <div class="card card-culture fade d5" onclick="goPage('https://jumjum1102.github.io/culture-religion/')">
+      <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Kampong_Glam_-_Masjid_Sultan_from_Bussorah_St.jpg" alt="Culture and Religion">
       <div class="card-ov"></div>
       <div class="card-num">06</div>
+      <div class="card-body">
+        <div class="card-tag">Culture & Religion</div>
+        <h3 class="card-title">文化・宗教<br>ガイド</h3>
+        <p class="card-desc">多民族国家シンガポールの文化・宗教・祭り・街区の成り立ちを、暮らしの視点で読み解く。</p>
+        <div class="card-cta">Read Guide<div class="cta-line"></div></div>
+      </div>
+    </div>
+
+    <div class="card fade d6" onclick="goPage('https://jumjum1102.github.io/comparison-jp-sg-nationalhealth/')">
+      <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Ng%20Teng%20Fong%20General%20Hospital%20and%20Jurong%20Community%20Hospital.jpg" alt="Healthcare">
+      <div class="card-ov"></div>
+      <div class="card-num">07</div>
       <div class="card-body">
         <div class="card-tag">Social Security</div>
         <h3 class="card-title">公的医療保険制度<br>ガイド</h3>
@@ -688,7 +721,7 @@ body::after{
     <div class="card-cs fade d1">
       <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Singapore%20Marina%20Bay%20Financial%20Centre%207.jpg" alt="Business">
       <div class="card-cs-ov"></div>
-      <div class="cs-num">07</div>
+      <div class="cs-num">08</div>
       <div class="cs-body">
         <div class="cs-tag">Business</div>
         <div class="cs-title">ビジネス環境</div>
@@ -699,7 +732,7 @@ body::after{
     <div class="card-cs fade d2">
       <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/FairPrice%20Supermarket%2C%20Nex%2C%20Singapore%20-%2020140315.jpg" alt="Cost of Living">
       <div class="card-cs-ov"></div>
-      <div class="cs-num">08</div>
+      <div class="cs-num">09</div>
       <div class="cs-body">
         <div class="cs-tag">Cost of Living</div>
         <div class="cs-title">生活コスト</div>
@@ -720,10 +753,10 @@ body::after{
       <div class="about-lbl">About This Guide</div>
       <h2 class="about-t">世界の縮図、<br><em>シンガポール</em>を<br>徹底解剖。</h2>
       <p class="about-p">実際にシンガポールに住んでみて感じた「リアルな驚き」を起点に、制度・文化・インフラを深掘りするナレッジベース。数字とファクトを軸に、表面的な情報を超えた洞察を届けます。</p>
-      <p class="about-p">ホーカー文化、世界No.1の空港、教育制度、住宅事情、マネーガイド、公的医療保険――それぞれのテーマを研究者の視点で体系化しています。</p>
+      <p class="about-p">ホーカー文化、世界No.1の空港、教育制度、住宅事情、マネーガイド、文化・宗教、公的医療保険――それぞれのテーマを研究者の視点で体系化しています。</p>
       <div class="about-hr"></div>
       <div class="about-stats">
-        <div><div class="ast-v">6</div><div class="ast-l">公開済みガイド</div></div>
+        <div><div class="ast-v">7</div><div class="ast-l">公開済みガイド</div></div>
         <div><div class="ast-v">+α</div><div class="ast-l">予定コンテンツ</div></div>
         <div><div class="ast-v">2025</div><div class="ast-l">最新データ対応</div></div>
       </div>
@@ -741,8 +774,8 @@ body::after{
     <div class="gl-lbl">Hawker Culture</div>
   </div>
   <div class="gl-item">
-    <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Students%20of%20Nan%20Hua%20High%20School%2C%20Singapore%2C%20in%20the%20school%20hall%20-%2020060127.jpg" alt="Education">
-    <div class="gl-lbl">Education</div>
+    <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Chinese_New_Year_decorations_in_Chinatown%2C_Singapore%2C_20240122_0852_2963.jpg" alt="Culture Religion">
+    <div class="gl-lbl">Culture & Religion</div>
   </div>
   <div class="gl-item">
     <img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/HDB%20housing%20unit.jpg" alt="Singapore Future">
@@ -763,9 +796,16 @@ body::after{
       <a class="ft-lnk" href="https://jumjum1102.github.io/Singapore_Education/">03 — 教育制度</a>
       <a class="ft-lnk" href="https://jumjum1102.github.io/real-estate/">04 — 不動産・住宅</a>
       <a class="ft-lnk" href="https://jumjum1102.github.io/Money_guide/">05 — 生活費・家計</a>
-      <a class="ft-lnk" href="https://jumjum1102.github.io/comparison-jp-sg-nationalhealth/">06 — 公的医療保険制度</a>
-      <a class="ft-lnk dim">07 — ビジネス環境</a>
-      <a class="ft-lnk dim">08 — 生活コスト</a>
+      <a class="ft-lnk" href="https://jumjum1102.github.io/culture-religion/">06 — 文化・宗教</a>
+      <a class="ft-lnk" href="https://jumjum1102.github.io/comparison-jp-sg-nationalhealth/">07 — 公的医療保険制度</a>
+      <a class="ft-lnk dim">08 — ビジネス環境</a>
+      <a class="ft-lnk dim">09 — 生活コスト</a>
+    </div>
+    <div>
+      <div class="ft-col-t">Information</div>
+      <p class="ft-lnk" style="cursor:default;">最新データ: 2025年</p>
+      <p class="ft-lnk" style="cursor:default;">対象: シンガポール在住・移住検討者</p>
+      <p class="ft-lnk" style="cursor:default;">情報源: 各省庁・公開統計</p>
     </div>
   </div>
   <div class="ft-btm">
@@ -781,6 +821,7 @@ const PAGE_LINKS = {
   education: "https://jumjum1102.github.io/Singapore_Education/",
   realEstate: "https://jumjum1102.github.io/real-estate/",
   moneyGuide: "https://jumjum1102.github.io/Money_guide/",
+  cultureReligion: "https://jumjum1102.github.io/culture-religion/",
   healthcare: "https://jumjum1102.github.io/comparison-jp-sg-nationalhealth/"
 };
 
@@ -852,4 +893,4 @@ const obs = new IntersectionObserver(entries=>{
 fades.forEach(el=>{ if(!el.classList.contains('vis')) obs.observe(el); });
 </script>
 </body>
- </html>
+</html>
